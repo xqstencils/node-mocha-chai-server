@@ -1,0 +1,109 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:6
+    working_directory: ~/node-mocha-chai-server
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install package dependencies
+          command: yarn install
+      - run:
+          name: Compile
+          command: yarn build
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - save_cache:
+          key: app-build-cache
+          paths:
+            - dist
+  test:
+    docker:
+      - image: circleci/node:6
+    working_directory: ~/node-mocha-chai-server
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - restore_cache:
+          key: app-build-cache
+      - run:
+          name: ESlint
+          command: yarn lint
+      - run:
+          name: Security Check
+          command: yarn security:check
+      - run:
+          name: Test
+          command: yarn test
+
+  release:
+    docker:
+      - image: circleci/node:6
+    working_directory: ~/node-mocha-chai-server
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - restore_cache:
+          key: app-build-cache
+      - run:
+          name: Git release
+          command: bash ./ci/release.sh
+
+  docker:
+    machine: true
+    working_directory: ~/node-mocha-chai-server
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - restore_cache:
+          key: app-build-cache
+      - run:
+          name: Docker build
+          command: bash ./ci/docker.sh
+
+  deploy:
+    machine: true
+    working_directory: ~/node-mocha-chai-server
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - restore_cache:
+          key: app-build-cache
+      - run:
+          name: Deploy image
+          command: bash ./ci/deploy.sh
+
+workflows:
+  version: 2
+  build-test-release-docker-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - release:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+      - docker:
+          requires:
+            - release
+          filters:
+            tags:
+              only: /^v.*/
+      - deploy:
+          requires:
+            - docker
