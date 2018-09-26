@@ -54,7 +54,7 @@ jobs:
       - restore_cache:
           key: app-build-cache
       - run:
-          name: Git release
+          name: Release
           command: bash ./ci/release.sh
 
   docker:

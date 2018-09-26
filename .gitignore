@@ -6,5 +6,6 @@ yarn-error.log
 lib/
 dist/
 target/
+reports/
 coverage/
 node_modules/

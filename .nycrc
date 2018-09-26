@@ -1,0 +1,26 @@
+{
+  "check-coverage": true,
+  "per-file": true,
+  "lines": 99,
+  "statements": 99,
+  "functions": 99,
+  "branches": 99,
+  "include": [
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "src/index.js",
+    "src/**/*.spec.js"
+  ],
+  "ignore-class-method": "methodToIgnore",
+  "reporter": [
+    "text",
+    "html"
+  ],
+  "require": [ ],
+  "extension": [ ],
+  "cache": true,
+  "all": true,
+  "report-dir": "coverage",
+  "temp-directory": "coverage/.nyc_output"
+}
