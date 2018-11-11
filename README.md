@@ -13,12 +13,12 @@ This is a stencil for basic server base on node and mocha.
 
 ## Features:
 
-* Run the test and publish your package with ci.
+* Support Publish your package to git & npm with ci.
 * Support CircleCi for pipeline.
 * Support ES7 & ES6 syntax.
 * Support ESlint to check the code.
 * Support Mocha & Chai to test your code.
-* Support Nsp to do security check for the dependencis.
+* Support Yarn audit to do security check for dependencies.
 * Support Build docker image and push to docker hub.
 * Support Deploy app to Heroku.
 
@@ -69,7 +69,7 @@ $> yarn test:watch
 ### Security check
 
 ```
-$> yarn security:check
+$> yarn audit
 ```
 
 ### Setup CI

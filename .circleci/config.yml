@@ -20,7 +20,7 @@ jobs:
           paths:
             - node_modules
       - save_cache:
-          key: app-build-cache
+          key: app-build-cache-{{ checksum "package.json" }}
           paths:
             - dist
   test:
@@ -32,13 +32,16 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
-          key: app-build-cache
+          key: app-build-cache-{{ checksum "package.json" }}
+      - run:
+          name: Upgrade yarn
+          command: sudo npm install --global yarn
       - run:
           name: ESlint
           command: yarn lint
       - run:
           name: Security Check
-          command: yarn security:check
+          command: yarn audit
       - run:
           name: Test
           command: yarn test
@@ -52,7 +55,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
-          key: app-build-cache
+          key: app-build-cache-{{ checksum "package.json" }}
       - run:
           name: Release
           command: bash ./ci/release.sh
@@ -65,7 +68,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
-          key: app-build-cache
+          key: app-build-cache-{{ checksum "package.json" }}
       - run:
           name: Docker build
           command: bash ./ci/docker.sh
@@ -78,7 +81,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
-          key: app-build-cache
+          key: app-build-cache-{{ checksum "package.json" }}
       - run:
           name: Deploy image
           command: bash ./ci/deploy.sh

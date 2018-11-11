@@ -10,7 +10,8 @@
   ],
   "exclude": [
     "src/index.js",
-    "src/**/*.spec.js"
+    "src/**/*.spec.js",
+    "test/**/*.spec.js"
   ],
   "ignore-class-method": "methodToIgnore",
   "reporter": [
@@ -21,6 +22,6 @@
   "extension": [ ],
   "cache": true,
   "all": true,
-  "report-dir": "coverage",
-  "temp-directory": "coverage/.nyc_output"
+  "report-dir": "./coverage",
+  "temp-dir": "./coverage/.nyc_output"
 }

@@ -21,15 +21,18 @@ module.exports = {
       {
         test: /\.s?css$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: 'css-loader', options: { modules: true, localIdentName: '[name]__[local]-[hash:base64:5]' } },
           {
-            loader: 'css-loader',
+            loader: 'postcss-loader',
             options: {
-              modules: true,
-              localIdentName: '[name]__[hash:base64:6]'
+              ident: 'postcss',
+              plugins: [
+                require('autoprefixer')({ browsers: ['> 0.01%'] })
+              ]
             }
           },
-          'sass-loader'
+          { loader: 'sass-loader' }
         ]
       }
     ]
