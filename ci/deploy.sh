@@ -15,4 +15,4 @@ git add -f dist/
 git commit -m "Release v$APP_VERSION"
 
 echo 'Deploy code to heroku'
-git push -f https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+git push -f https://heroku:$HEROKU_API_KEY@git.heroku.com/$APP_NAME.git master
