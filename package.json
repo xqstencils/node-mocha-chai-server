@@ -1,6 +1,6 @@
 {
   "name": "@xq-stencil/node-mocha-chai-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple server stencil based on node and used mocha for test",
   "main": "lib/index.js",
   "engines": {
